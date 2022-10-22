@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<section class="container">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search.." aria-label="Search..."
+               id="textSearch">
+    </div>
+    <div id="gridUsers">
+    </div>
+
+</section>
+
+<script>
+
+    $(() => {
+        getUsers();
+        $("#textSearch").on("keyup", () =>{
+            getUsers();
+        });
+    });
+
+    function getUsers(){
+        $.ajax({
+            url: '@Url.Action("SearchUsers", "Home")',
+            datatype: 'html',
+            method : "GET",
+            data: {
+                searchString: $("#textSearch").val()
+            },
+            success: function(res){
+                $("#gridUsers").html('').html(res);
+            },
+            error: function(err){
+                console.log(err);
+            }
+        })
+    }
+</script>
